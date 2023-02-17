@@ -1,43 +1,38 @@
 import ToDoItem from "../ToDoItem/ToDoItem";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 type TodoItem = {
   id: number;
   title: string;
   content: string;
   date: string;
+  isDone: boolean;
 };
 
 const ToDoList = () => {
-  const toDoItemsX: TodoItem[] = [
-    {
-      id: 1,
-      title: "Jāiztīra māja",
-      content: "Nosākuma jāaiziet uz veikalu un jānopērk pāris lietas",
-      date: "10/20/2030",
-    },
-    {
-      id: 2,
-      title: "Jāpavingro",
-      content: "Jāiegādājas sporta apavi",
-      date: "10/20/1090",
-    },
-    {
-      id: 3,
-      title: "Jāuztaisa vakariņas",
-      content: "gaļa ir saldētavā",
-      date: "13/12/2004",
-    },
-  ];
+  const { data, isLoading } = useQuery<TodoItem[]>({
+    queryKey: ["tasks"],
+    queryFn: getTasks,
+  });
+
+  if (isLoading) {
+    return <h1>Loading....</h1>;
+  }
+  if (!data) {
+    return <h1>There is no tasks to show.</h1>;
+  }
 
   return (
     <div>
-      {toDoItemsX.map((todo) => (
+      {data.map((todo) => (
         <ToDoItem
-          key={todo.id}
+          key={Math.random()}
           id={todo.id}
           title={todo.title}
           content={todo.content}
           date={todo.date}
+          isDone={todo.isDone}
         />
       ))}
     </div>
@@ -46,3 +41,7 @@ const ToDoList = () => {
 
 export { ToDoList };
 export type { TodoItem };
+
+const getTasks = () => {
+  return axios.get("http://localhost:3004/tasks").then((res) => res.data);
+};

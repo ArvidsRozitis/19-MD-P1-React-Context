@@ -26,7 +26,7 @@ const AddToDoForm = () => {
           Title for the task
           <input
             onChange={(e) => setContentInput(e.target.value)}
-            value={contentInput}
+            value={titleInput}
             required
           />
         </StyledInputLabel>
@@ -34,7 +34,7 @@ const AddToDoForm = () => {
           what need to be done
           <input
             onChange={(e) => setTitleInput(e.target.value)}
-            value={titleInput}
+            value={contentInput}
             required
           />
         </StyledInputLabel>

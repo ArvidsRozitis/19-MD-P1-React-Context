@@ -4,10 +4,11 @@ import { TodoItem } from "../ToDoList/ToDoList";
 
 
 
-const ToDoItem = ({id, title, content, date}:TodoItem) => {
+const ToDoItem = ({id, title, content, date, isDone}:TodoItem) => {
     const deleteHandler = () => {
-        console.log('delete notika', id)
+        console.log('delete notika', id, isDone)
     }
+    
   return (
     <StyledContainer>
       <StyledTaskHeading>{title}</StyledTaskHeading>
