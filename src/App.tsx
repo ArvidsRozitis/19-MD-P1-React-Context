@@ -1,5 +1,5 @@
-import { useState } from "react";
 import "./App.css";
+import AddToDoForm from "./components/AddToDoForm/AddToDoForm";
 
 function App() {
   return (
@@ -14,20 +14,3 @@ function App() {
 }
 
 export default App;
-
-const AddToDoForm = () => {
-  return (
-    <div>
-      add to do
-      <form>
-        <label>
-          add new to do
-          <input />
-          <button>+</button>
-        </label>
-      </form>
-    </div>
-  );
-};
-
-
