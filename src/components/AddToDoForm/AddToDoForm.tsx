@@ -3,25 +3,40 @@ import Button from "../Button/Button";
 import { useState } from "react";
 
 const AddToDoForm = () => {
-  const [input, setInput] = useState("");
+  const [titleInput, setTitleInput] = useState("");
+  const [contentInput, setContentInput] = useState("");
   const submitHandler = () => {
-    console.log("asubmits notika");
+    console.log("submits notika");
   };
 
   return (
     <StyledFormContainer>
-      <span>{input}</span>
+      <span>{titleInput}</span>
+      <span>{contentInput}</span>
       <StyledFormHeading>add to do</StyledFormHeading>
       <StyledFrom
         onSubmit={(e) => {
           e.preventDefault();
           submitHandler();
-          setInput("");
+          setContentInput("");
+          setTitleInput("");
         }}
       >
         <StyledInputLabel>
-          add task
-          <input onChange={(e) => setInput(e.target.value)} value={input} />
+          Title for the task
+          <input
+            onChange={(e) => setContentInput(e.target.value)}
+            value={contentInput}
+            required
+          />
+        </StyledInputLabel>
+        <StyledInputLabel>
+          what need to be done
+          <input
+            onChange={(e) => setTitleInput(e.target.value)}
+            value={titleInput}
+            required
+          />
         </StyledInputLabel>
         <Button onClick={() => submitHandler} text="+" />
       </StyledFrom>
@@ -32,11 +47,13 @@ const AddToDoForm = () => {
 const StyledFormContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 30px;
 `;
 const StyledFrom = styled.form`
   display: flex;
-  gap: 5px;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
 `;
 const StyledInputLabel = styled.label`
   display: flex;

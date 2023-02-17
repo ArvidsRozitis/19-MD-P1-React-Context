@@ -5,7 +5,11 @@ type ButtonProps = {
 };
 
 const Button = ({ onClick, text }: ButtonProps) => {
-  return <StyledTestButton onClick={onClick}>{text}</StyledTestButton>;
+  return (
+    <div>
+      <StyledTestButton onClick={onClick}>{text}</StyledTestButton>
+    </div>
+  );
 };
 
 export default Button;
@@ -13,8 +17,7 @@ export default Button;
 const StyledTestButton = styled.button`
   all: unset;
   display: flex;
-  width: 20px;
-  height: 20px;
+  width: 100%;
   align-items: center;
   justify-content: center;
   padding: 4px;

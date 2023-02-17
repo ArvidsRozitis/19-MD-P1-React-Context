@@ -1,5 +1,6 @@
 import "./App.css";
 import AddToDoForm from "./components/AddToDoForm/AddToDoForm";
+import ToDoItem from "./components/ToDoItem/ToDoItem";
 
 function App() {
   return (
@@ -7,10 +8,15 @@ function App() {
       <AddToDoForm />
       <div>
         todo list
-        <div>todo cards</div>
+        <ToDoItem />
+        <ToDoItem />
+        <ToDoItem />
       </div>
     </div>
   );
 }
 
 export default App;
+
+
+
