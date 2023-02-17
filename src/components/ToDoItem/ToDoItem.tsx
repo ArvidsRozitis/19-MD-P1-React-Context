@@ -1,16 +1,19 @@
 import styled from "styled-components";
 import Button from "../Button/Button";
+import { TodoItem } from "../ToDoList/ToDoList";
 
-const ToDoItem = () => {
+
+
+const ToDoItem = ({id, title, content, date}:TodoItem) => {
     const deleteHandler = () => {
-        console.log('delete notika')
+        console.log('delete notika', id)
     }
   return (
     <StyledContainer>
-      <StyledTaskHeading>Title</StyledTaskHeading>
-      <p>content content content content content content content</p>
+      <StyledTaskHeading>{title}</StyledTaskHeading>
+      <p>{content}</p>
       <StyledBottomWrapper>
-        <time>20/10/2032</time>
+        <time>{date}</time>
         <Button onClick={() => deleteHandler()} text='delete'/>
       </StyledBottomWrapper>
     </StyledContainer>
