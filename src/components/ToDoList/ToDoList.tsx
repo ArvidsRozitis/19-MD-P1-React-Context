@@ -2,8 +2,8 @@ import ToDoItem from "../ToDoItem/ToDoItem";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-type TodoItem = {
-  id: number;
+type TodoItemType = {
+  _id: string;
   title: string;
   content: string;
   date: string;
@@ -11,7 +11,7 @@ type TodoItem = {
 };
 
 const ToDoList = () => {
-  const { data, isLoading } = useQuery<TodoItem[]>({
+  const { data, isLoading } = useQuery<TodoItemType[]>({
     queryKey: ["tasks"],
     queryFn: getTasks,
   });
@@ -28,7 +28,7 @@ const ToDoList = () => {
       {data.map((todo) => (
         <ToDoItem
           key={Math.random()}
-          id={todo.id}
+          _id={todo._id}
           title={todo.title}
           content={todo.content}
           date={todo.date}
@@ -40,7 +40,7 @@ const ToDoList = () => {
 };
 
 export { ToDoList };
-export type { TodoItem };
+export type { TodoItemType };
 
 const getTasks = () => {
   return axios.get("http://localhost:3004/tasks").then((res) => res.data);

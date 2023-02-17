@@ -1,12 +1,29 @@
 import styled from "styled-components";
 import Button from "../Button/Button";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+
+type TodoItemProps = {
+  title: string;
+  content: string;
+  isDone: boolean;
+};
 
 const AddToDoForm = () => {
   const [titleInput, setTitleInput] = useState("");
   const [contentInput, setContentInput] = useState("");
+  const { mutate } = useAddTask();
+  
   const submitHandler = () => {
-    console.log("submits notika");
+    const newTask = {
+      title: titleInput,
+      content: contentInput,
+      isDone: false,
+    };
+    mutate(newTask);
+    setContentInput("");
+    setTitleInput("");
   };
 
   return (
@@ -18,14 +35,12 @@ const AddToDoForm = () => {
         onSubmit={(e) => {
           e.preventDefault();
           submitHandler();
-          setContentInput("");
-          setTitleInput("");
         }}
       >
         <StyledInputLabel>
           Title for the task
           <input
-            onChange={(e) => setContentInput(e.target.value)}
+            onChange={(e) => setTitleInput(e.target.value)}
             value={titleInput}
             required
           />
@@ -33,7 +48,7 @@ const AddToDoForm = () => {
         <StyledInputLabel>
           what need to be done
           <input
-            onChange={(e) => setTitleInput(e.target.value)}
+            onChange={(e) => setContentInput(e.target.value)}
             value={contentInput}
             required
           />
@@ -44,6 +59,26 @@ const AddToDoForm = () => {
   );
 };
 
+export default AddToDoForm;
+
+const addTask = (newTask: TodoItemProps) => {
+  return axios
+    .post(`http://localhost:3004/tasks/post`, { newTask })
+    .then((res) => {
+      console.log("tasks tika pievienots", res);
+    });
+};
+
+const useAddTask = () => {
+  const queryClient = useQueryClient();
+  return useMutation(addTask, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+    },
+  });
+};
+
+//==================style
 const StyledFormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -66,5 +101,3 @@ const StyledFormHeading = styled.h2`
   font-size: 1.25rem;
   text-transform: uppercase;
 `;
-
-export default AddToDoForm;

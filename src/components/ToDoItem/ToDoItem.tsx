@@ -1,21 +1,30 @@
 import styled from "styled-components";
 import Button from "../Button/Button";
-import { TodoItem } from "../ToDoList/ToDoList";
+import { TodoItemType } from "../ToDoList/ToDoList";
+import axios from "axios";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
+const ToDoItem = ({ _id, title, content, date, isDone }: TodoItemType) => {
+  const queryClient = useQueryClient();
 
+  const deleteHandler = () => {
+    deleteTaskMutation.mutate(_id);
+  };
+  const deleteTaskMutation = useMutation({
+    mutationFn: deleteComment,
+    onSuccess: () => queryClient.invalidateQueries(["tasks"]),
+  });
 
-const ToDoItem = ({id, title, content, date, isDone}:TodoItem) => {
-    const deleteHandler = () => {
-        console.log('delete notika', id, isDone)
-    }
-    
   return (
     <StyledContainer>
-      <StyledTaskHeading>{title}</StyledTaskHeading>
+      <TopWrapper>
+        <StyledTaskHeading>{title}</StyledTaskHeading>
+        <input type="checkbox" />
+      </TopWrapper>
       <p>{content}</p>
       <StyledBottomWrapper>
         <time>{date}</time>
-        <Button onClick={() => deleteHandler()} text='delete'/>
+        <Button onClick={() => deleteHandler()} text="delete" />
       </StyledBottomWrapper>
     </StyledContainer>
   );
@@ -47,4 +56,14 @@ const StyledBottomWrapper = styled.div`
   align-items: center;
 `;
 
+const TopWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`
+
 export default ToDoItem;
+
+const deleteComment = (commentId: string) => {
+  return axios.delete(`http://localhost:3004/tasks/delete/${commentId}`);
+};
